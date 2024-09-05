@@ -1,0 +1,33 @@
+\begin{frame}{Superadditive Extensions -- Candidates for Real Values}
+		\begin{center}
+		\begin{tikzpicture}[] %%[scale=4] ONLY changes distances, not the canvas
+    % Define the coordinates of the vertices
+    \coordinate (A) at (0, 0);
+    \coordinate (B) at (4.3, 0);
+    \coordinate (C) at (7, 3.5);
+    \coordinate (D) at (5, 6);
+    \coordinate (E) at (2, 5);
+    \coordinate (F) at (0, 2.5);
+    \coordinate (v) at (3, 3.5);
+    \coordinate (vm) at (A);
+    \coordinate (vM) at (7, 6);
+    
+    % Draw and fill the hexagon
+		\filldraw[very thick, fill=white!85!mDarkBrown, draw=mDarkBrown] (A) -- (B) -- (C) node[anchor=north,yshift=-30]{$\mathbb{S}^n(f,\k)$}-- (D) -- (E) -- (F) -- cycle;
+
+			    % \filldraw[mDarkBrown] (A) circle (1pt) node[anchor=north]{$A$};
+			    % \filldraw[mDarkBrown] (B) circle (1pt) node[anchor=north]{$B$};
+			    % \filldraw[mDarkBrown] (C) circle (1pt) node[anchor=west]{$C$};
+			    % \filldraw[mDarkBrown] (D) circle (1pt) node[anchor=south]{$D$};
+			    % \filldraw[mDarkBrown] (E) circle (1pt) node[anchor=south]{$E$};
+			    % \filldraw[mDarkBrown] (F) circle (1pt) node[anchor=east]{$F$};
+
+			    \filldraw[mDarkBrown] (v) circle (1.5pt) node[anchor=north,xshift=3]{${f}$};
+
+			    \filldraw<2->[mDarkBrown] (vm) circle (1.5pt) node[anchor=north,xshift=-3]{${\underbar f}$};
+			    \filldraw<2->[mDarkBrown] (vM) circle (1.5pt) node[anchor=north,xshift=3]{${\bar f}$};
+			    \draw<2->[densely dotted, very thick, draw=mDarkBrown] (7, 3) -- (vM) -- (3.5, 6);
+			    \draw<3->[densely dotted, very thick, draw=mLightBrown] (vm) -- (vM);
+		\end{tikzpicture}
+	\end{center}
+\end{frame}

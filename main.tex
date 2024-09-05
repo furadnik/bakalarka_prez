@@ -1,0 +1,142 @@
+\documentclass[aspectratio=169]{beamer}
+
+% setup basic metainfo
+\title{Balancing Space Complexity and Ambiguity in Superadditive Set Functions}
+
+\input{template}
+\input{beamer.tex}
+\input{english}
+
+\usepackage[natbib=true,style=authoryear,backend=bibtex,useprefix=true,maxbibnames=4]{biblatex}
+\addbibresource{bibliography.bib}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+
+\def\blue#1{{\color{blue} #1}}
+\def\orange#1{{\color{orange} #1}}
+\def\red#1{{\color{red} #1}}
+\def\s{\mathcal{S}}
+
+\begin{document}
+\maketitle
+
+\begin{frame}{Set Functions}
+	\begin{itemize}
+		\item<1-> Finite \emph{ground set} $ N = \left\{ 1, \ldots, n \right\} $.
+		\item<2-> A \emph{(complete) set function} is then any function \[
+			f: \pot N \to \R.
+		\]
+		\item<3-> Used in countless fields, including cooperative game theory, combinatorial auctions, matroids.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{What Is Wrong?}
+	\begin{itemize}[ ]
+		\item<1-> A \emph{(complete) set function} is any function \[
+				f: \pot N \to \R.
+			\]
+		\item<2-> The size of $ f $ is exponential in the size of the ground set.
+		\item<3-> We limit ourselves to the set of \emph{known subsets} $ \k \subseteq \pot N $.
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}{Some Necessary Constraints}
+	We assume \emph{superadditivity} of $ f $: \[
+		\left( \forall S,T \subseteq N, S \cap T = \emptyset \right)\qquad \fce{f}{S} + \fce{f}{T} \leq \fce{f}{S \cup T}.
+	\]
+	We further assume minimal information to be present: \[
+		\k \supseteq \k_0,
+	\]
+	where $ \k_0 = \left\{ \emptyset, N \right\} \cup \left\{ \left\{ i \right\} \suchthat i \in N \right\} $.
+\end{frame}
+
+\include{superadditive_ext}
+
+\begin{frame}{Divergence}
+	\begin{definition}[Divergence]
+		Let $ f $ be a set function and $ \k \subseteq \k_0 $.
+		Let $ \ell: \R^n \times \R^n \to \R^+_0 $.
+		The \emph{divergence} is \[
+			\fce{\Delta_\ell}{f, \k} \deq \fce{\ell}{\bar f_{\k}, \underbar f_{\k}}.
+		\]
+	\end{definition}
+	
+	\vspace{2em}
+	We only require $ \ell $ to satisfy the following: \[
+		\left( \forall \k \supseteq \k_0 \right)\! \left( \forall S \subseteq N \right)\quad \fce{\Delta_\ell}{f, \k} \geq \fce{\Delta_\ell}{f, \k \cup S}.
+	\]
+\end{frame}
+
+\begin{frame}{Reducing $ \Delta_\ell $ -- Setting}
+	\begin{itemize}[ ]
+		\item<2-> We have \alert<2>{$ f \sim \mathcal{F} $}, where $ \mathcal{F} $ is a distribution of superadditive set functions.
+		\item<3-> We only \alert<3>{know $ \k \supseteq \k_0 $} values of it.
+		\item<4-> We have a \alert<4>{budget $ \tau $} of how many values we can learn.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Reducing $ \Delta_\ell $ -- Offline Approach}
+	In the simplest case, we can \alert{minimize the expected value}: \[
+		\s^* = \argmin_{\s, \absolute{\s} = \tau} \E_{v \sim \mathcal{F}} \left[ \mathcal{G}(v,\k \cup \s) \right].
+	\]
+
+	\vspace{2em}
+	We call this the \emph{Offline} approach.
+\end{frame}
+
+\begin{frame}{Reducing $ \Delta_\ell $ -- Online Approach}
+	It is \textquote{inefficient} to learn all values at once.
+
+	The \emph{Online} approach seeks to find a policy $ \pi $ which selects the next value to learn based on the values already known.
+
+	A solution to the Online approach can be approximated using reinforcement learning (we use the PPO algorithm).
+\end{frame}
+
+\begin{frame}{Lower Bound on the Online Approach}
+	The online approach tries to learn additional information about the function.
+
+	The \emph{best} we can hope for is that it learns \emph{all} the information.
+
+	We can thus lower bound the resulting $ \Delta_\ell $ by \[
+		\fceb{\E_{f \sim \mathcal{F}}}{\min_{\s, \absolute{\s} = \tau} \Delta_\ell(f, \k \cup \s)}.
+	\]
+	We call this the \emph{Oracle} benchmark.
+\end{frame}
+
+\begin{frame}{Reducing $ \Delta_\ell $ -- Results for $ \mathcal{F} = \texttt{factory} (5) $}
+	\begin{center}
+		\includegraphics[width=.8\textwidth]{figures/l1_norm_predictible_factory5.pdf}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Supermodular Functions}
+	\begin{definition}[Supermodular Function]
+		A set function $ f $ is \emph{supermodular} $ \equiv $ \[
+			\left( \forall S,T \subseteq N \right)\quad \fce{f}{S} + \fce{f}{T} \leq \fce{f}{S \cup T} + \fce{f}{S \cap T}.
+		\]
+	\end{definition}
+	
+\end{frame}
+
+\begin{frame}{Reducing $ \Delta_\ell $ -- Results for $ \mathcal{F} = \texttt{supermodular} (5) $}
+	\begin{center}
+		\includegraphics[width=.8\textwidth]{figures/l1_norm_convex5.pdf}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Reducing $ \Delta_\ell $ -- \textsc{Largest Subsets} Heuristic}
+	\begin{center}
+		\includegraphics[width=.8\textwidth]{figures/l1_norm_convex_linear.pdf}
+	\end{center}
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}[allowframebreaks]{References}
+    \nocite{*}
+    \printbibliography[heading=none]
+\end{frame}
+
+\section{Thank You!}
+
+\end{document}
