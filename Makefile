@@ -18,8 +18,17 @@ handout.pdf: handout.tex
 	pdflatex handout.tex
 	pdflatex handout.tex
 
+main43.pdf: main43.tex
+	pdflatex main43.tex
+	bibtex main43
+	pdflatex main43.tex
+	pdflatex main43.tex
+
 handout.tex: main.tex
 	cat main.tex | sed 's/\\documentclass\[/\\documentclass[handout,/' > handout.tex
+
+main43.tex: main.tex
+	cat main.tex | sed 's/aspectratio=169/aspectratio=43/' > main43.tex
 
 beamer.tex:
 	if hue; then sed -i \

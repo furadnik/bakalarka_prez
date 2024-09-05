@@ -15,6 +15,7 @@ jobs:
           sudo apt install -y texlive texlive-lang-czechslovak texlive-science texlive-latex-extra git make texlive-fonts-extra texlive-bibtex-extra
           make handout.pdf
           make main.pdf
+          make main43.pdf
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
@@ -24,3 +25,4 @@ jobs:
           files: |
             main.pdf
             handout.pdf
+            main43.pdf
