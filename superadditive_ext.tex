@@ -25,8 +25,8 @@
 
 			    \filldraw[mDarkBrown] (v) circle (1.5pt) node[anchor=north,xshift=3]{${f}$};
 
-			    \filldraw<2->[mDarkBrown] (vm) circle (1.5pt) node[anchor=north,xshift=-3]{${\underline f}$};
-			    \filldraw<2->[mDarkBrown] (vM) circle (1.5pt) node[anchor=north,xshift=5,yshift=2]{${\bar f}$};
+			    \onslide<2->{\filldraw[mDarkBrown] (vm) circle (1.5pt) node[anchor=north,xshift=-3]{${\underline f}$};}
+			    \onslide<2->{\filldraw[mDarkBrown] (vM) circle (1.5pt) node[anchor=north,xshift=5,yshift=2]{${\bar f}$};}
 			    \draw<2->[densely dotted, very thick, draw=mDarkBrown] (7, 3) -- (vM) -- (3.5, 6);
 			    \draw<3->[densely dotted, very thick, draw=mLightBrown] (vm) -- (vM);
 		\end{tikzpicture}

@@ -21,11 +21,11 @@
 
 \begin{frame}{Set Functions}
 	\begin{itemize}
-		\item<1-> Finite \emph{ground set} $ N = \left\{ 1, \ldots, n \right\} $.
-		\item<2-> A \emph{(complete) set function} is then any function \[
+		\item<1-> Used in countless fields, including cooperative game theory, combinatorial auctions, matroids.
+		\item<2-> Finite \emph{ground set} $ N = \left\{ 1, \ldots, n \right\} $.
+		\item<3-> A \emph{(complete) set function} is then any function \[
 			f: \pot N \to \R.
 		\]
-		\item<3-> Used in countless fields, including cooperative game theory, combinatorial auctions, matroids.
 	\end{itemize}
 \end{frame}
 
@@ -77,7 +77,7 @@
 
 \begin{frame}{Reducing $ \Delta_\ell $ -- Offline Approach}
 	In the simplest case, we can \alert{minimize the expected value}: \[
-		\s^* = \argmin_{\s, \absolute{\s} = \tau} \E_{v \sim \mathcal{F}} \left[ \mathcal{G}(v,\k \cup \s) \right].
+		\s^* = \argmin_{\s, \absolute{\s} = \tau} \E_{f \sim \mathcal{F}} \left[ \Delta_\ell(f,\k \cup \s) \right].
 	\]
 
 	\vspace{2em}
@@ -90,17 +90,6 @@
 	The \emph{Online} approach seeks to find a policy $ \pi $ which selects the next value to learn based on the values already known.
 
 	A solution to the Online approach can be approximated using reinforcement learning (we use the PPO algorithm).
-\end{frame}
-
-\begin{frame}{Lower Bound on the Online Approach}
-	The online approach tries to learn additional information about the function.
-
-	The \emph{best} we can hope for is that it learns \emph{all} the information.
-
-	We can thus lower bound the resulting $ \Delta_\ell $ by \[
-		\fceb{\E_{f \sim \mathcal{F}}}{\min_{\s, \absolute{\s} = \tau} \Delta_\ell(f, \k \cup \s)}.
-	\]
-	We call this the \emph{Oracle} benchmark.
 \end{frame}
 
 \begin{frame}{Reducing $ \Delta_\ell $ -- Results for $ \mathcal{F} = \texttt{factory} (5) $}
@@ -130,13 +119,101 @@
 	\end{center}
 \end{frame}
 
-\section{Conclusion}
-
-\begin{frame}[allowframebreaks]{References}
-    \nocite{*}
-    \printbibliography[heading=none]
+\begin{frame}{Conclusion}
+	\begin{itemize}
+		\item  Set functions grow exponentially with the size of $ N $.
+		\item We limit their size to $ \k \subseteq \pot N $ subsets.
+		\item We propose a way to quantify the resulting ambiguity.
+		\item We investigate how to choose $ \k $ optimally, such that the ambiguity is minimised.
+		\item We explore both Offline and Online approaches to this problem.
+	\end{itemize}
 \end{frame}
 
-\section{Thank You!}
+% \begin{frame}[allowframebreaks]{References}
+%     \nocite{*}
+%     \printbibliography[heading=none]
+% \end{frame}
+
+% \section{Thank You!}
+\appendix
+
+\begin{frame}{}
+	\begin{quote}
+		Definice nosiče na str. 4 je vágní, není jasné, co se myslí “the set of values it can have.” Nosič náhodné veličiny se definuje jako nosič její pravděpodobnostní distribuce a nehrozí tak záměna různých pojmů nosiče (např. v matematické analýze je nosičem funkce uzávěr množiny nenulových hodnot té funkce).
+	\end{quote}
+	
+	 
+\end{frame}
+
+\begin{frame}
+	\begin{quote}
+		“The formed coalitions receive some value.” Raději worth místo “value”.
+	\end{quote}
+\end{frame}
+
+\begin{frame}
+	\begin{quote}
+		Figure 1.1. V argumentech funkce $ \tau $ chybí $ a_t $.
+	\end{quote}
+	\begin{center}
+		\vspace{2em}
+		\begin{tikzpicture}[
+		stff/.style={rectangle, draw=black, very thick, minimum height=40, minimum width=80, rounded corners=3},
+		]
+			%Nodes
+			\node[stff]        (Agent)                            {Agent};
+			\node[stff]        (Environment)   [right=of Agent]   {Environment};
+
+			%Lines
+			\draw[->, very thick] (Agent.north)  .. controls  +(up:9mm) and +(up:9mm) .. node[midway, above] {$ a_t \in \mathcal{A} $} (Environment.north);
+			\draw[->, very thick] (Environment.south)  .. controls  +(up:-9mm) and +(up:-9mm) .. node[midway, below, align=center] {$ s_{t+1} \sim \fce{\tau}{s_{t}, \alert{a_t}} $\\$ r_t = \fce{r}{s_{t}, a_t, s_{t+1}} $} (Agent.south);
+		\end{tikzpicture}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\begin{quote}
+		Pojmy “MDP” a “environment” se užívají jako synonyma (Definice 10 a Definice 11). To je v pořádku, jen by si to zasloužilo krátký komentář.
+	\end{quote}
+\end{frame}
+
+\begin{frame}
+	\begin{quote}
+		Notace $ \E_\pi [G_0] $ se liší od notace pro střední hodnotu v Definici 13 a o 3 řádky dále je v textu použita ještě jiná notace.
+	\end{quote}
+
+When constructing a policy, our goal is to maximize $ \fceb{\E}{G_0} $, where the expectation is taken over the initial state, the transition function, and the policy in each step.
+It is sometimes useful to explicitly state the policy used by the agent in the notation.
+For that, we use the notation $ \fceb{\E_\pi}{G_0} $, which is common in RL literature, signaling that the actions chosen when computing the return are corresponding to the policy $ \pi $.
+
+\hfill -- Strana 9
+
+\end{frame}
+
+\begin{frame}
+	\begin{quote}
+		Na str. 13 “a player may claim he is more valuable to the grand coalition” není nutně pravda, protože hodnota hráče je určena jeho příspěvkem ke všem možným koalicím.
+	\end{quote}
+\end{frame}
+
+\begin{frame}
+	\begin{quote}
+		Definice 15. “Incomplete set function” je restrikcí funkce $ f $ na $ \k $. Možná by se dala použít pro restrikci notace $ f_\k $, což formálně podtrhuje nutnost pracovat s $ f $ i s její restrikcí.
+	\end{quote}
+
+	\vspace{2em}
+	\begin{definition}[Incomplete set function]
+		Let $ f: \pot N \to \R $ be a set function.
+		An \emph{incomplete set function} is $ \left( f, \k \right) $, where $ \k \subseteq \pot N $ are the subsets with \emph{known values} of the set function.
+	\end{definition}
+\end{frame}
+
+\begin{frame}
+	\begin{quote}
+		Stavový prostor policy $ \pi $ na str. 19 (druhý odstavec) má být $ \pot{\pot \N \times \R} \times \N $.
+	\end{quote}
+	\vspace{2em}
+	Notice that the policy used here matches the definition of a policy we have given as Definition 11 in Section 1.3, with $ \pot {\alert{\pot N} \times \R} \times \N $ as the state space, and $ \pot N \setminus \k_0 $ as the action space.
+\end{frame}
 
 \end{document}
