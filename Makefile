@@ -1,6 +1,6 @@
 MAINS = $(shell find . -maxdepth 3 -type f -name main.tex)
 
-PDFS = $(MAINS:.tex=.pdf) handout.pdf
+PDFS = $(MAINS:.tex=.pdf)
 
 all: doc
 
